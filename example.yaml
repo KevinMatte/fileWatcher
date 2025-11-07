@@ -44,4 +44,4 @@
 # Note: Reloads happen every time changes are discovered.
 "monitorBuild YAML Changed":
   commands: "echo  'Reloading example YAML.' 2>/dev/null"
-  searches: ['example.yaml']
+  searches: 'example.yaml'
