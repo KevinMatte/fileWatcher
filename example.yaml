@@ -1,0 +1,47 @@
+# This sets up default values for all following targets.
+# The __defaults__ for one YAML file are NOT passed onto the next.
+#
+# Note: A list of one string in the YAML can be replaced with the one string for easier reading.
+"__defaults__":
+  # When the file in '--skip_file {file}' exists, these commands are run rather than the 'commands'
+  skipped: "echo '_MONITOR_NAME_: Skip file exists. Skipping.' 2>/dev/null"
+
+  # Executed before running 'commands'
+  started: "echo '_MONITOR_NAME_: Starting' 2>/dev/null"
+
+  # Executed after running 'commands' successfully.
+  completed:
+    - "echo '_MONITOR_NAME_: Completed' 2>/dev/null"
+
+  # Executed after running 'commands' failed.
+  error:
+    - "echo '_MONITOR_NAME_: Error' 2>/dev/null"
+
+  # Fall-back commands if 'commands' is not specified.
+  # Note: A single string is recognized as a short form of a list of one string.
+  commands: "echo '_MONITOR_NAME_: Missing commands' 2>/dev/null"
+
+# This is the start of a declaration of files/paths to monitor and commands to execute.
+"Sample Watcher":
+
+  # When a file/path changes, these commands will be executed.
+  commands:
+    - "echo Going to make something"
+    - "echo Done"
+
+  # A list of files/paths and file name patterns to monitor.
+  searches:
+    # Not used. Just nice to see.
+    - name: 'static'
+      paths: "./requirements.txt"
+      # Optional. If given, the full path must match this python regular expression.
+      # You could include directories in these patterns, but if possible, don't, I think.
+      patterns: ['.*requirements\.txt$']
+      commands:
+        - ". venv/bin/activate; pip install -r requirements.txt"
+
+# For reloading this YAML file.
+# Note: Reloads happen every time changes are discovered.
+"monitorBuild YAML Changed":
+  commands: "echo  'Reloading example YAML.' 2>/dev/null"
+  searches: ['example.yaml']
